@@ -1,0 +1,7 @@
+pandas
+streamlit
+fastapi
+python-dotenv
+pyecharts
+streamlit-echarts
+polars[all]
