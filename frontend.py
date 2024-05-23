@@ -1,7 +1,10 @@
 
-import pyecharts
+import pyecharts as pe
+from pyecharts import options as opts
 import streamlit as st
-from streamlit_echarts import st_echarts
+import streamlit.components.v1 as components
+import time
+import numpy as np
 
 # nastavuji položky v menu
 streamlit_menu_items = {
@@ -23,21 +26,18 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# sidebar
-st.sidebar.title("Navigation")
-username = "Your Name" # TODO: authentify
-st.sidebar.markdown(f"Logged in as :red[{username}]")
-
-# kreslím graf
-st.title("zmena")
-options = {
-    "xAxis": {
-        "type": "category",
-        "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-    "yAxis": {"type": "value"},
-    "series": [
-        {"data": [820, 932, 901, 934, 1290, 1330, 1320], "type": "line"}
-    ],
-}
-st_echarts(options=options)
+# Nakreslí graf
+graf = st.empty()
+for i in range(10000):
+    time.sleep(1)
+    c = (
+        pe.charts.Bar(opts.InitOpts(animation_opts=opts.AnimationOpts(False)))
+        .add_xaxis(["Microsoft", "Amazon", "IBM", "Oracle", "Google", "Alibaba"])
+        .add_yaxis('2017-2018 Revenue in (billion $)', np.array([21.2, 20.4, 10.3, 6.08, 4, 2.2]).__mul__(i).tolist())
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="Top cloud providers 2018", subtitle="2017-2018 Revenue"),
+            toolbox_opts=opts.ToolboxOpts())
+        .render_embed() # generate a local HTML file
+    )
+    with graf:
+        components.html(c, width=1000, height=1000)
