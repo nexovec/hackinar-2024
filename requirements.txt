@@ -5,3 +5,8 @@ python-dotenv
 pyecharts
 streamlit-echarts
 polars[all]
+plotly
+nbformat
+lxml
+html5lib
+beautifulsoup4
